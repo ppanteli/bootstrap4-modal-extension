@@ -223,4 +223,4 @@ $.post('/form', data, function() {
 
 ## License
 
-MIT
+[MIT](LICENSE) © Pantelis Panteli
