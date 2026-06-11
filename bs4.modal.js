@@ -4,6 +4,7 @@
  * @param {Object} options
  */
 (function($){
+    'use strict';
     var dmw = window;
 
     $.fn.dynamicModal = function(options){
@@ -359,28 +360,33 @@
     dmw.dynamicModal.cacheStorage = {};
     dmw.dynamicModal.instances = [];
     dmw.dynamicModal.pluginDefaults = {
-        template:   '<div id="dynamicModal" class="modal custom-modal dynamic-modal-plugin fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="dynamicModalTitle">' +
-            '<div class="modal-dialog" role="document">' +
-            '<div class="modal-content">' +
-            '<div class="modal-header">' +
-            '<div class="modal-title-container">' +
-            '<h4 class="modal-title"></h4>' +
-            '</div>' +
-            '<button class="close" type="button" data-dismiss="modal" aria-label="Close">' +
-            '&times;' +
-            '</button>' +
-            '</div>' +
-            '<div class="modal-body-container">' +
-            '<div class="modal-loader fade"><div class="loader-body">' +
-            '<div class="loader-spinner spinner spinning"></div>' +
-            '<h4 class="loader-title fw-1 mb-1">Loading</h4>Please wait...' +
-            '</div></div>' +
-            '<div class="modal-body"></div>' +
-            '</div>' +
-            '<div class="modal-footer"></div>' +
-            '</div>' +
-            '</div>' +
-            '</div>',
+        template: `
+            <div id="dynamicModal" class="modal custom-modal dynamic-modal-plugin fade"
+                 tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="dynamicModalTitle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title-container">
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body-container">
+                            <div class="modal-loader fade">
+                                <div class="loader-body">
+                                    <div class="loader-spinner spinner spinning"></div>
+                                    <h4 class="loader-title fw-1 mb-1">Loading</h4>
+                                    Please wait...
+                                </div>
+                            </div>
+                            <div class="modal-body"></div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+                </div>
+            </div>`,
         title: 'Modal Title',
         subtitle: false,
         titleIcon: false,
