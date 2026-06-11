@@ -13,7 +13,7 @@ A lightweight jQuery plugin that dynamically loads modal content via AJAX or inl
 - CSS animation support with customisable speed and delay
 - Mobile-responsive: snaps to a fixed full-screen layout below a configurable breakpoint
 - Programmatic control: open, close, dismiss, show/hide loader, enable/disable closing
-- Lifecycle hooks: `onOpen`, `onOpenBefore`, `onCloseBefore`, `onClose`
+- Lifecycle hooks: `onOpenBefore`, `onOpen`, `onCloseBefore`, `onClose`
 - Multiple modal instances managed automatically (previous modal is hidden when a new one opens)
 
 ---
@@ -114,6 +114,8 @@ All options can be passed as a JavaScript object or set via `data-*` attributes 
 | `closebtn` | `boolean` | `false` | Render a "Cancel" dismiss button inside the footer when `footer` is `false`. |
 | `closebtnclass` | `string` | `''` | Extra CSS class(es) added to the close button. |
 | `id` | `string` | auto-generated | Custom `id` attribute for the modal element. |
+| `pageNotFoundTemplate` | `string` | `'<div class="alert alert-warning">Page not found!</div>'` | HTML rendered in the modal body when `href` is empty or `#`. |
+| `ajaxErrorTemplate` | `string` | `'<div class="alert alert-danger">Failed to load content. Please try again.</div>'` | HTML rendered in the modal body when an AJAX request fails. Override to customise the error message. |
 
 ---
 
@@ -153,10 +155,8 @@ $.dynamicModal({
   href: '/content',
   onOpenBefore:  function() { console.log('About to open'); },
   onOpen:        function() { console.log('Modal is visible'); },
-  onOpenAfter:   function() { console.log('After open sequence'); },
   onCloseBefore: function() { console.log('About to close'); },
-  onClose:       function() { console.log('Modal removed from DOM'); },
-  onCloseAfter:  function() { console.log('After close sequence'); }
+  onClose:       function() { console.log('Modal removed from DOM'); }
 });
 ```
 
@@ -164,10 +164,10 @@ $.dynamicModal({
 |---|---|
 | `onOpenBefore` | Immediately before Bootstrap shows the modal. |
 | `onOpen` | After the `shown.bs.modal` event — modal is fully visible. |
-| `onOpenAfter` | After the full open sequence completes. |
 | `onCloseBefore` | On the `hide.bs.modal` event — before the hide animation starts. |
 | `onClose` | After the `hidden.bs.modal` event — modal has been removed from the DOM. |
-| `onCloseAfter` | After the full close sequence completes. |
+
+> `onOpenAfter` and `onCloseAfter` are reserved names but are not currently triggered by the plugin.
 
 ---
 
