@@ -78,8 +78,9 @@
             if(this.isOpen())
                 return false;
             var that = this;
+            this._manualDismissCalled = false;
             // Check how many modal exists in the page
-            $modalsInDom = $('body').find('.modal');
+            const $modalsInDom = $('body').find('.modal');
             var timeout = 0;
             if (dmw.dynamicModal.instances.length>1){
                 $modalsInDom.modal('hide');
@@ -259,6 +260,10 @@
                         dmw.dynamicModal.cacheStorage[that.href] = html;
                     }
                 });
+                jqxhr.fail(function(xhr, status, error){
+                    that.setContent(that.ajaxErrorTemplate);
+                    console.error('dynamicModal: AJAX request failed for "' + that.href + '" — ' + status + ' ' + error);
+                });
             }else{
                 this.contentParsed.html(this.content);
                 this.setContent();
@@ -383,6 +388,7 @@
         closemodal: 'auto',
         pageNotFound: false,
         pageNotFoundTemplate: '<div class="alert alert-warning" style="margin-bottom:0;">Page not found!</div>',
+        ajaxErrorTemplate: '<div class="alert alert-danger" style="margin-bottom:0;">Failed to load content. Please try again.</div>',
         forceScrollableDialog: false,
         backdrop: true,
         keyboard: true,
