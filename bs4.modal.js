@@ -37,7 +37,7 @@
                     }
                 }
                 /** Init modal instance **/
-                var instance = $.dynamicModal(dmOptions);
+                $.dynamicModal(dmOptions);
             });
         });
         return $(this);
@@ -97,10 +97,9 @@
             this._fireCallback('onClose');
             this.$el.remove();
             $(window).unbind('resize.' + this._id);
-            var l = dmw.dynamicModal.instances;
             var i = dmw.dynamicModal.instances.length - 1;
             for(i; i >= 0; i--){
-                if(dmw.dynamicModal.instances[i]._id === that._id){
+                if(dmw.dynamicModal.instances[i]._id === this._id){
                     dmw.dynamicModal.instances.splice(i, 1);
                 }
             }
@@ -146,14 +145,12 @@
             this.refreshContent();
 		},
         setContent: function(content){
-            var that = this;
             if(content)
                 this.contentParsed.html(content);
             this.$body.html(this.contentParsed);
             this.refreshContent();
         },
         showLoading: function(){
-            var that = this;
             this.$bodyContainer.addClass('loader-active');
             this.$bodyContainer.removeClass('loader-hidden');
             this.$loader.css('display', 'block');
@@ -260,7 +257,7 @@
                         dmw.dynamicModal.cacheStorage[that.href] = html;
                     }
                 });
-                jqxhr.fail(function(xhr, status, error){
+                jqxhr.fail(function(_xhr, status, error){
                     that.setContent(that.ajaxErrorTemplate);
                     console.error('dynamicModal: AJAX request failed for "' + that.href + '" — ' + status + ' ' + error);
                 });
@@ -344,7 +341,6 @@
             });
         },
         _onOpenBefore: function(){
-            var that = this;
             if(this.pageNotFound)
                 this.setContent(this.pageNotFoundTemplate);
         },
