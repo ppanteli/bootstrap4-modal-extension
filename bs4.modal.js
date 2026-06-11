@@ -93,9 +93,7 @@
             return true;
         },
         close: function(){
-            var that = this;
-            if(typeof this.onClose === 'function')
-                this.onClose();
+            this._fireCallback('onClose');
             this.$el.remove();
             $(window).unbind('resize.' + this._id);
             var l = dmw.dynamicModal.instances;
@@ -128,12 +126,11 @@
         setSubTitle: function(subtitle){
             this.$subtitle = subtitle;
         },
-        onClose: function(){},
-        onCloseBefore: function(){},
-        onCloseAfter: function(){},
-        onOpen: function(){},
-        onOpenBefore: function(){},
-        onOpenAfter: function(){},
+        /** Safely invoke a lifecycle callback if the caller provided one. */
+        _fireCallback: function(name){
+            if(typeof this[name] === 'function')
+                this[name]();
+        },
         refreshContent: function(){ // We should make this function private
             let that = this;
             setTimeout(function(){
@@ -320,13 +317,11 @@
         _open: function(){
             var that = this;
             this._onOpenBefore();
-            if(typeof that.onOpenBefore === 'function')
-                that.onOpenBefore();
+            this._fireCallback('onOpenBefore');
             var modal = this.$el.modal();
-            modal.on('shown.bs.modal', function (e){
+            modal.on('shown.bs.modal', function (){
                 $('body').addClass('modal-open');
-                if(typeof that.onOpen === 'function')
-                    that.onOpen();
+                that._fireCallback('onOpen');
                 // Check for the observers created for crm
                 if ("function"==typeof window['AnimationsObserver']){
                     setTimeout(function(){
@@ -334,13 +329,12 @@
                     }, 300);
                 }
             });
-            modal.on('hide.bs.modal', function (e){
+            modal.on('hide.bs.modal', function (){
                 if (that._manualDismissCalled == false && that.isClosingDisabled())
                     return false;
-                if(typeof that.onCloseBefore === 'function')
-                    that.onCloseBefore();
+                that._fireCallback('onCloseBefore');
             });
-            modal.on('hidden.bs.modal', function (e){
+            modal.on('hidden.bs.modal', function (){
                 that.close();
             });
         },
