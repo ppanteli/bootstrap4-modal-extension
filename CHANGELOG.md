@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ajaxErrorTemplate` option for customisable AJAX error messages
 - `pageNotFoundTemplate` option for missing/invalid `href` fallback
 - Automatic focus blur on modal close to prevent `aria-hidden` accessibility warning
+- `isAjax` resolved automatically based on whether `content` has a value — empty string treated as "no content provided"
+- Requires jQuery 3.5.1+ and Bootstrap 4.6.2
 - `package.json` for npm distribution
 - `composer.json` for Packagist/Composer distribution
 - Minified builds in `dist/` via `npm run build`

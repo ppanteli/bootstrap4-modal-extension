@@ -37,8 +37,8 @@
   },
   "homepage": "https://github.com/ppanteli/bootstrap4-modal-extension#readme",
   "peerDependencies": {
-    "jquery": ">=1.9.0",
-    "bootstrap": "^4.0.0"
+    "jquery": ">=3.5.1",
+    "bootstrap": "4.6.2"
   },
   "devDependencies": {
     "terser": "5.31.3",

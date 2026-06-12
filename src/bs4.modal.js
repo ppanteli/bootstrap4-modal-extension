@@ -10,22 +10,22 @@
 
     $.fn.bs4Modal = function(options){
         if(typeof options === 'undefined') options = {};
-        if(options == 'destroy'){
+        if(options === 'destroy'){
             $(this).off('click');
             return false;
         }
         $(this).each(function(){
-            var $this = $(this);
+            let $this = $(this);
             $this.on('click', function(e){
                 e.preventDefault();
-                var opts = $.extend({}, options);
+                let opts = $.extend({}, options);
                 /* merge individual options */
-                var data = $(this).data();
+                let data = $(this).data();
                 if($this.attr('title'))
                     opts['title'] = $this.attr('title');
                 if($this.attr('href'))
                     opts['href'] = $this.attr('href');
-                var dmOptions = $.extend({}, opts, data);
+                let dmOptions = $.extend({}, opts, data);
                 /** check if content is set through attr */
                 if($this.attr('data-content')){
                     dmOptions['isAjax'] = false;
@@ -54,9 +54,9 @@
 
     dmw.bs4Modal = function(options){
         if(typeof options === 'undefined') options = {};
-        var pluginOptions = $.extend(true, {}, dmw.bs4Modal.pluginDefaults);
+        let pluginOptions = $.extend(true, {}, dmw.bs4Modal.pluginDefaults);
         pluginOptions = $.extend(true, {}, pluginOptions, options);
-        var instance = new dmw.Modal(pluginOptions);
+        let instance = new dmw.Modal(pluginOptions);
         dmw.bs4Modal.instances.push(instance);
         return instance;
     };
@@ -83,7 +83,7 @@
             this._manualDismissCalled = false;
             // Check how many modals exist in the page
             const $modalsInDom = $('body').find('.modal');
-            var timeout = 0;
+            let timeout = 0;
             if(dmw.bs4Modal.instances.length > 1){
                 $modalsInDom.modal('hide');
                 timeout = 150;
@@ -99,8 +99,8 @@
         close() {
             this._fireCallback('onClose');
             this.$el.remove();
-            $(window).unbind('resize.' + this._id);
-            var i = dmw.bs4Modal.instances.length - 1;
+            $(window).off('resize.' + this._id);
+            let i = dmw.bs4Modal.instances.length - 1;
             for(; i >= 0; i--){
                 if(dmw.bs4Modal.instances[i]._id === this._id){
                     dmw.bs4Modal.instances.splice(i, 1);
@@ -195,10 +195,10 @@
         },
 
         _buildHTML() {
-            var template = $(this.template);
+            let template = $(this.template);
             template.attr('data-keyboard', this.keyboard).attr('data-backdrop', this.backdrop);
             template.attr('aria-labelledby', 'bs4Modal' + this._id);
-            var idAttr = (this.hasOwnProperty('id')) ? this.id : 'bs4Modal' + this._id;
+            const idAttr = (this.hasOwnProperty('id')) ? this.id : 'bs4Modal' + this._id;
             this._attrId = idAttr;
             template.attr('id', idAttr);
             this.$el = template;
@@ -259,7 +259,7 @@
             this.content = this.content || '&nbsp;';
 
             if(this.isAjax){
-                var jqxhr = $.get(this.href);
+                const jqxhr = $.get(this.href);
                 jqxhr.done((html) => {
                     this.contentParsed.html(html);
                     this.setContent();
@@ -297,13 +297,13 @@
         },
 
         _getMaxBodyContainerHeight() {
-            var windowHeight = $(window).outerHeight(true);
-            var dialogOuterHeight = this.$dialog.outerHeight(true);
-            var dialogInnerHeight = this.$dialog.outerHeight();
-            var dialogHeaderHeight = this.$header.outerHeight();
-            var height = windowHeight - ((dialogOuterHeight - dialogInnerHeight) + dialogHeaderHeight);
+            const windowHeight = $(window).outerHeight(true);
+            const dialogOuterHeight = this.$dialog.outerHeight(true);
+            const dialogInnerHeight = this.$dialog.outerHeight();
+            const dialogHeaderHeight = this.$header.outerHeight();
+            let height = windowHeight - ((dialogOuterHeight - dialogInnerHeight) + dialogHeaderHeight);
             if(this._isDeviceBreakdown() === true){
-                var dialogFooterHeight = this.$footer.outerHeight();
+                const dialogFooterHeight = this.$footer.outerHeight();
                 height = height - dialogFooterHeight;
             }
             return height;
@@ -314,7 +314,7 @@
                 //this.$bodyContainer.css({'max-height': 'initial'});
                 return true;
             }
-            //var height = this._getMaxBodyContainerHeight();
+            //let height = this._getMaxBodyContainerHeight();
             //this.$bodyContainer.css({'max-height': height + 'px'});
         },
 
@@ -333,7 +333,7 @@
         _open() {
             this._onOpenBefore();
             this._fireCallback('onOpenBefore');
-            var modal = this.$el.modal();
+            const modal = this.$el.modal();
             modal.on('shown.bs.modal', () => {
                 $('body').addClass('modal-open');
                 this._fireCallback('onOpen');
@@ -348,7 +348,7 @@
                 // Bootstrap focuses the modal root (tabindex="-1") when it opens, so
                 // document.activeElement may be the modal itself or a child — both cases
                 // are handled here to prevent the aria-hidden focus constraint warning.
-                var active = document.activeElement;
+                let active = document.activeElement;
                 if(active && this.$el[0].contains(active)){
                     active.blur();
                 }

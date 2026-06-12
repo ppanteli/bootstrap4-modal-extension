@@ -65,8 +65,8 @@ That's it. The plugin:
 
 ## Requirements
 
-- jQuery 1.9+
-- Bootstrap 4
+- jQuery 3.5.1+
+- Bootstrap 4.6.2
 
 ---
 
@@ -79,8 +79,8 @@ The quickest way — no installation required:
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.js"></script>
 ```
 
