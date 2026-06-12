@@ -1,0 +1,47 @@
+{
+  "name": "bs4-modal-ext",
+  "version": "1.0.0",
+  "description": "A lightweight jQuery plugin that dynamically loads modal content via AJAX or inline HTML, built on top of Bootstrap 4 modals.",
+  "main": "dist/bs4.modal.min.js",
+  "style": "dist/bs4.modal.min.css",
+  "files": [
+    "src/bs4.modal.js",
+    "src/bs4.modal.css",
+    "dist/bs4.modal.min.js",
+    "dist/bs4.modal.min.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build:js": "terser src/bs4.modal.js --compress --mangle --output dist/bs4.modal.min.js",
+    "build:css": "cleancss -o dist/bs4.modal.min.css src/bs4.modal.css",
+    "build": "npm run build:js && npm run build:css"
+  },
+  "keywords": [
+    "bootstrap",
+    "bootstrap4",
+    "modal",
+    "jquery",
+    "ajax",
+    "dynamic-modal",
+    "plugin"
+  ],
+  "author": "Pantelis Panteli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ppanteli/bootstrap4-modal-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ppanteli/bootstrap4-modal-extension/issues"
+  },
+  "homepage": "https://github.com/ppanteli/bootstrap4-modal-extension#readme",
+  "peerDependencies": {
+    "jquery": ">=1.9.0",
+    "bootstrap": "^4.0.0"
+  },
+  "devDependencies": {
+    "terser": "5.31.3",
+    "clean-css-cli": "5.6.3"
+  }
+}

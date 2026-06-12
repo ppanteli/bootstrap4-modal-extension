@@ -1,0 +1,47 @@
+{
+  "name": "ppanteli/bs4-modal-ext",
+  "description": "A lightweight jQuery plugin that dynamically loads modal content via AJAX or inline HTML, built on top of Bootstrap 4 modals.",
+  "version": "1.0.0",
+  "type": "component",
+  "keywords": [
+    "bootstrap",
+    "bootstrap4",
+    "modal",
+    "jquery",
+    "ajax",
+    "dynamic-modal",
+    "plugin"
+  ],
+  "homepage": "https://github.com/ppanteli/bootstrap4-modal-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pantelis Panteli",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "npm-asset/jquery": ">=1.9.0",
+    "npm-asset/bootstrap": "^4.0.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "extra": {
+    "component": {
+      "scripts": [
+        "dist/bs4.modal.min.js"
+      ],
+      "styles": [
+        "dist/bs4.modal.min.css"
+      ]
+    }
+  },
+  "support": {
+    "issues": "https://github.com/ppanteli/bootstrap4-modal-extension/issues",
+    "source": "https://github.com/ppanteli/bootstrap4-modal-extension"
+  }
+}

@@ -4,6 +4,51 @@ A lightweight jQuery plugin that dynamically loads modal content via AJAX or inl
 
 ---
 
+## Why BS4Modal?
+
+Bootstrap 4 modals are powerful but low-level. To show a modal you need to write the full HTML structure in the page upfront, manage show/hide yourself, and wire up any AJAX loading, spinner, error handling, and cleanup manually — every time.
+
+**Plain Bootstrap 4 approach:**
+
+```html
+<!-- HTML must exist in the DOM before you call it -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">My Modal</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- manually fetch and inject content here -->
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+```js
+// manually fetch content, handle errors, show spinner, clean up after close...
+$('#myModal').modal('show');
+```
+
+**With BS4Modal:**
+
+```js
+$.bs4Modal({ href: '/path/to/content', title: 'My Modal' });
+```
+
+That's it. The plugin:
+
+- Builds and injects the modal HTML dynamically — nothing to add to your page
+- Fetches content via AJAX with a built-in loading spinner
+- Handles errors and shows a configurable error message if the request fails
+- Removes the modal from the DOM after it closes, keeping the page clean
+- Manages multiple instances automatically — opening a second modal hides the first
+- Exposes a clean API for programmatic control when you need it
+
+---
+
 ## Features
 
 - Load modal content from a URL (AJAX) or pass it directly as a string
@@ -43,13 +88,13 @@ Copy `bs4.modal.js` into your project and include it after jQuery and Bootstrap 
 
 ### 1. Data-attribute (declarative)
 
-Add `data-*` attributes to any element and call `.dynamicModal()` on it:
+Add `data-*` attributes to any element and call `.bs4Modal()` on it:
 
 ```html
 <a href="/path/to/content" title="My Modal" class="open-modal">Open</a>
 
 <script>
-  $('.open-modal').dynamicModal();
+  $('.open-modal').bs4Modal();
 </script>
 ```
 
@@ -58,7 +103,7 @@ Clicking the element triggers an AJAX request to `href` and displays the respons
 ### 2. jQuery plugin (imperative)
 
 ```js
-$.dynamicModal({
+$.bs4Modal({
   href: '/path/to/content',
   title: 'My Modal'
 });
@@ -67,7 +112,7 @@ $.dynamicModal({
 ### 3. Inline / static content
 
 ```js
-$.dynamicModal({
+$.bs4Modal({
   title: 'Hello',
   content: '<p>This is static content.</p>'
 });
@@ -78,7 +123,7 @@ Or via a `data-content` attribute on the trigger element — the plugin will ski
 ### 4. Destroy the listener
 
 ```js
-$('.open-modal').dynamicModal('destroy');
+$('.open-modal').bs4Modal('destroy');
 ```
 
 ---
@@ -121,10 +166,10 @@ All options can be passed as a JavaScript object or set via `data-*` attributes 
 
 ## Instance API
 
-`$.dynamicModal()` and `$.fn.dynamicModal()` both return the `Modal` instance, which exposes the following methods:
+`$.bs4Modal()` and `$.fn.bs4Modal()` both return the `Modal` instance, which exposes the following methods:
 
 ```js
-var modal = $.dynamicModal({ href: '/content', title: 'Demo' });
+var modal = $.bs4Modal({ href: '/content', title: 'Demo' });
 ```
 
 | Method | Description |
@@ -151,7 +196,7 @@ var modal = $.dynamicModal({ href: '/content', title: 'Demo' });
 Pass any of these as options to hook into the modal lifecycle:
 
 ```js
-$.dynamicModal({
+$.bs4Modal({
   href: '/content',
   onOpenBefore:  function() { console.log('About to open'); },
   onOpen:        function() { console.log('Modal is visible'); },
@@ -176,7 +221,7 @@ $.dynamicModal({
 ### AJAX modal with a large size and animation
 
 ```js
-$('.trigger').dynamicModal({
+$('.trigger').bs4Modal({
   title: 'User Profile',
   modalsize: 'modal-lg',
   animation: 'fadeInDown',
@@ -187,7 +232,7 @@ $('.trigger').dynamicModal({
 ### Static content, no header, custom footer
 
 ```js
-$.dynamicModal({
+$.bs4Modal({
   header: false,
   content: '<p>Are you sure?</p>',
   footer: '<button class="btn btn-danger" id="confirm">Delete</button>',
@@ -198,7 +243,7 @@ $.dynamicModal({
 ### Cached AJAX modal
 
 ```js
-$.dynamicModal({
+$.bs4Modal({
   href: '/help/topic/1',
   title: 'Help',
   cache: true
@@ -208,7 +253,7 @@ $.dynamicModal({
 ### Programmatic control
 
 ```js
-var modal = $.dynamicModal({ href: '/form', title: 'Edit' });
+var modal = $.bs4Modal({ href: '/form', title: 'Edit' });
 
 // Disable closing while a form is submitting
 modal.disableClosing();

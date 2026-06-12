@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS4Modal — Examples</title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- BS4Modal styles -->
+    <link rel="stylesheet" href="../src/bs4.modal.css">
+
+    <style>
+        body { padding: 2rem; background: #f8f9fa; }
+        h1 { margin-bottom: .25rem; }
+        .subtitle { color: #6c757d; margin-bottom: 2rem; }
+        .example-section { background: #fff; border: 1px solid #dee2e6; border-radius: .5rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .example-section h5 { margin-bottom: 1rem; font-weight: 600; }
+        .example-section .btn { margin-right: .5rem; margin-bottom: .5rem; }
+        pre { background: #f1f3f5; border-radius: .3rem; padding: 1rem; font-size: .8rem; margin-top: 1rem; margin-bottom: 0; }
+    </style>
+</head>
+<body>
+
+<h1>BS4Modal</h1>
+<p class="subtitle">Interactive examples for the BS4Modal jQuery plugin.</p>
+
+<!-- ─────────────────────────────────────────────
+     1. Declarative (data-attribute)
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>1. Declarative — data-attribute trigger</h5>
+    <p>Add a <code>title</code> and <code>data-content</code> attribute to any element. Call <code>.bs4Modal()</code> on it once.</p>
+
+    <a href="#"
+       title="Hello from data attributes"
+       data-content="<p>This content comes directly from the <strong>data-content</strong> attribute on the trigger element. No JavaScript config needed.</p>"
+       class="btn btn-primary js-declarative">
+        Open declarative modal
+    </a>
+
+    <pre>&lt;a href="#"
+   title="Hello from data attributes"
+   data-content="&lt;p&gt;Content from data-content attribute.&lt;/p&gt;"
+   class="js-declarative"&gt;Open&lt;/a&gt;
+
+$('.js-declarative').bs4Modal();</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     2. Static content (imperative)
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>2. Static content — imperative</h5>
+    <p>Pass <code>content</code> directly as a string. AJAX is skipped automatically.</p>
+
+    <button class="btn btn-primary" id="btn-static">Open static modal</button>
+
+    <pre>$.bs4Modal({
+    title: 'Static Content',
+    content: '&lt;p&gt;This HTML was passed directly as a string.&lt;/p&gt;'
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     3. No header, custom footer
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>3. No header, custom footer</h5>
+    <p>Hide the header and provide custom footer HTML with action buttons.</p>
+
+    <button class="btn btn-warning" id="btn-no-header">Open confirmation modal</button>
+
+    <pre>$.bs4Modal({
+    header: false,
+    content: '&lt;p class="mb-0"&gt;Are you sure you want to delete this item?&lt;/p&gt;',
+    footer: '&lt;button class="btn btn-danger" id="confirm-delete"&gt;Delete&lt;/button&gt;' +
+            '&lt;button class="btn btn-secondary" data-dismiss="modal"&gt;Cancel&lt;/button&gt;'
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     4. Large modal with animation
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>4. Large modal with subtitle and title icon</h5>
+    <p>Use <code>modalsize</code>, <code>subtitle</code>, and <code>titleIcon</code> options.</p>
+
+    <button class="btn btn-info text-white" id="btn-large">Open large modal</button>
+
+    <pre>$.bs4Modal({
+    title: 'User Profile',
+    subtitle: 'View and edit account details',
+    titleIcon: '&lt;svg ...&gt;&lt;/svg&gt;',
+    modalsize: 'modal-lg',
+    content: '...'
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     5. Manual close control
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>5. Manual close — programmatic dismiss</h5>
+    <p>Set <code>closemodal: 'manual'</code> to remove all dismiss buttons. Close programmatically after a timed action.</p>
+
+    <button class="btn btn-secondary" id="btn-manual">Open manual-close modal</button>
+
+    <pre>var modal = $.bs4Modal({
+    title: 'Processing...',
+    content: '&lt;p&gt;Saving your changes. Closing automatically in 3 seconds.&lt;/p&gt;',
+    closemodal: 'manual',
+    backdrop: 'static',
+    keyboard: false
+});
+
+setTimeout(function() { modal.dismiss(); }, 3000);</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     6. disableClosing / resetClosing
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>6. Disable and re-enable closing</h5>
+    <p>Prevent the user from closing during a simulated async operation, then restore normal behaviour.</p>
+
+    <button class="btn btn-dark" id="btn-disable-closing">Open with closing lock</button>
+
+    <pre>var modal = $.bs4Modal({ title: 'Submitting Form', content: '...' });
+
+modal.disableClosing(); // lock
+
+setTimeout(function() {
+    modal.setContent('&lt;p&gt;Done! You can now close this modal.&lt;/p&gt;');
+    modal.resetClosing(); // unlock
+}, 3000);</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     7. Lifecycle callbacks
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>7. Lifecycle callbacks</h5>
+    <p>Hook into <code>onOpenBefore</code>, <code>onOpen</code>, <code>onCloseBefore</code>, and <code>onClose</code>. Check the browser console for output.</p>
+
+    <button class="btn btn-success" id="btn-callbacks">Open with lifecycle logging</button>
+
+    <pre>$.bs4Modal({
+    title: 'Lifecycle Demo',
+    content: '&lt;p&gt;Open the browser console to see callback output.&lt;/p&gt;',
+    onOpenBefore:  function() { console.log('[bs4Modal] onOpenBefore'); },
+    onOpen:        function() { console.log('[bs4Modal] onOpen'); },
+    onCloseBefore: function() { console.log('[bs4Modal] onCloseBefore'); },
+    onClose:       function() { console.log('[bs4Modal] onClose'); }
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     8. setContent / prependContent API
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>8. Update content after open</h5>
+    <p>Use <code>setContent()</code> and <code>prependContent()</code> on a live modal instance.</p>
+
+    <button class="btn btn-primary" id="btn-update-content">Open updatable modal</button>
+
+    <pre>var modal = $.bs4Modal({ title: 'Live Update', content: '&lt;p&gt;Original content.&lt;/p&gt;' });
+
+// Replace content after 2s
+setTimeout(function() {
+    modal.setContent('&lt;p&gt;Content was replaced via setContent().&lt;/p&gt;');
+}, 2000);
+
+// Prepend a notice after 4s
+setTimeout(function() {
+    modal.prependContent('&lt;div class="alert alert-success"&gt;Prepended via prependContent()&lt;/div&gt;');
+}, 4000);</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     9. Footer close button (closebtn)
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>9. Auto close button in footer</h5>
+    <p>Set <code>closebtn: true</code> to add a Cancel button to the footer without writing footer HTML manually.</p>
+
+    <button class="btn btn-outline-secondary" id="btn-closebtn">Open with auto cancel button</button>
+
+    <pre>$.bs4Modal({
+    title: 'With Cancel Button',
+    content: '&lt;p&gt;A Cancel button is added to the footer automatically.&lt;/p&gt;',
+    closebtn: true
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     10. Mobile breakdown
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>10. Mobile full-screen breakdown</h5>
+    <p>Below the <code>mobileBreakdown</code> breakpoint the modal fills the screen. Resize the browser window narrow to see the effect.</p>
+
+    <button class="btn btn-outline-primary" id="btn-mobile">Open mobile-aware modal</button>
+
+    <pre>$.bs4Modal({
+    title: 'Mobile Responsive',
+    content: '&lt;p&gt;Resize the browser below 768px to see full-screen layout.&lt;/p&gt;',
+    mobileBreakdown: 768   // default is 576
+});</pre>
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     13. Long content — default and scrollable dialog
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>11. Long content — default vs scrollable dialog</h5>
+    <p>
+        By default the entire modal grows with the content and the <em>page</em> scrolls.
+        Set <code>forceScrollableDialog: true</code> to keep the modal at a fixed height and
+        scroll <em>inside</em> the modal body instead.
+    </p>
+
+    <button class="btn btn-primary" id="btn-long-default">Default scroll (page scrolls)</button>
+    <button class="btn btn-outline-primary" id="btn-long-scrollable">Scrollable dialog (body scrolls)</button>
+
+    <pre>// Default — modal grows, page scrolls
+$.bs4Modal({
+    title: 'Long Content',
+    content: '... lots of content ...',
+    modalsize: 'modal-lg'
+});
+
+// Scrollable dialog — modal stays fixed height, body scrolls inside
+$.bs4Modal({
+    title: 'Long Content — Scrollable Dialog',
+    content: '... lots of content ...',
+    modalsize: 'modal-lg',
+    forceScrollableDialog: true
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     12. AJAX — load static partial (read-only)
+───────────────────────────────────────────── -->
+<div class="alert alert-warning" role="alert">
+    <strong>Note:</strong> Examples 12 and 13 use AJAX and require the page to be served over HTTP.
+    Opening this file directly as <code>file://</code> will cause the requests to fail due to browser security restrictions.
+    Serve the project locally and open it at a URL such as <code>http://localhost:8080/examples/index.html</code>.
+</div>
+<div class="example-section">
+    <h5>12. AJAX — load content from a static file</h5>
+    <p>The modal fetches <code>partials/user-profile.html</code> via AJAX and displays it in the body. A loading spinner is shown while the request is in flight.</p>
+
+    <a href="partials/user-profile.html"
+       title="User Profile"
+       class="btn btn-primary js-ajax-profile">
+        Load user profile
+    </a>
+
+    <pre>&lt;a href="partials/user-profile.html" title="User Profile" class="js-ajax-profile"&gt;
+    Load user profile
+&lt;/a&gt;
+
+// Declarative — href drives the AJAX request automatically
+$('.js-ajax-profile').bs4Modal({
+    modalsize: 'modal-lg',
+    cache: true
+});</pre>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     12. AJAX — load form partial, submit programmatically
+───────────────────────────────────────────── -->
+<div class="example-section">
+    <h5>13. AJAX — load a form, simulate submit with closing lock</h5>
+    <p>
+        Fetches <code>partials/edit-form.html</code> via AJAX. Clicking <strong>Save</strong> in the footer
+        disables closing, simulates a 2 second server round-trip, then shows a success message and re-enables closing.
+    </p>
+
+    <button class="btn btn-success" id="btn-ajax-form">Open edit form</button>
+
+    <pre>var modal = $.bs4Modal({
+    href: 'partials/edit-form.html',
+    title: 'Edit User',
+    modalsize: 'modal-lg',
+    footer: '&lt;button id="btn-save-form" class="btn btn-primary"&gt;Save changes&lt;/button&gt;' +
+            '&lt;button class="btn btn-secondary" data-dismiss="modal"&gt;Cancel&lt;/button&gt;'
+});
+
+$(document).on('click', '#btn-save-form', function() {
+    modal.disableClosing();
+    modal.showLoading();
+    // simulate server request
+    setTimeout(function() {
+        modal.setContent(
+            '&lt;div class="alert alert-success mb-0"&gt;Changes saved successfully.&lt;/div&gt;'
+        );
+        modal.resetClosing();
+    }, 2000);
+});</pre>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../src/bs4.modal.js"></script>
+<script>
+$(function() {
+
+    // 1. Declarative
+    $('.js-declarative').bs4Modal();
+
+    // 2. Static content
+    $('#btn-static').on('click', function() {
+        $.bs4Modal({
+            title: 'Static Content',
+            content: `<p>This HTML was passed directly as a string — no AJAX request was made.</p>
+                     <p class="mb-0 text-muted">Useful for confirmation dialogs, help text, or any pre-rendered markup.</p>`
+        });
+    });
+
+    // 3. No header, custom footer
+    $('#btn-no-header').on('click', function() {
+        $.bs4Modal({
+            //header: false,
+            forceScrollableDialog:true,
+            content: '<p class="mb-0 lead">Are you sure you want to delete this item? This action cannot be undone.</p>',
+            footer: `<button class="btn btn-danger" id="confirm-delete">Yes, delete it</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>`
+        });
+    });
+
+    // 4. Large modal with subtitle + title icon
+    $('#btn-large').on('click', function() {
+        $.bs4Modal({
+            title: 'User Profile',
+            subtitle: 'View and edit your account details',
+            titleIcon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.029 10 8 10c-2.029 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>',
+            modalsize: 'modal-lg',
+            content: `<div class="row">
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="rounded-circle bg-secondary mx-auto mb-2" style="width:80px;height:80px;"></div>
+                            <strong>Pantelis Panteli</strong>
+                        </div>
+                        <div class="col-md-8">
+                            <p><strong>Email:</strong> pantelis@example.com</p>
+                            <p><strong>Role:</strong> Administrator</p>
+                            <p class="mb-0"><strong>Last login:</strong> Today at 09:41</p>
+                        </div>
+                    </div>`
+        });
+    });
+
+    // 5. Manual close
+    $('#btn-manual').on('click', function() {
+        var modal = $.bs4Modal({
+            title: 'Processing...',
+            content: '<p>Saving your changes. This modal will close automatically in <strong>3 seconds</strong>.</p>',
+            closemodal: 'manual',
+            backdrop: 'static',
+            keyboard: false
+        });
+        setTimeout(function() { modal.dismiss(); }, 3000);
+    });
+
+    // 6. disableClosing / resetClosing
+    $('#btn-disable-closing').on('click', function() {
+        var modal = $.bs4Modal({
+            title: 'Submitting Form',
+            content: '<p>Simulating an async operation. Closing is <strong>disabled</strong> for 3 seconds&hellip;</p>'
+        });
+        modal.disableClosing();
+        setTimeout(function() {
+            modal.setContent(
+                `<div class="alert alert-success mb-0">
+                    <strong>Done!</strong> The operation completed. You can now close this modal.
+                </div>`
+            );
+            modal.resetClosing();
+        }, 3000);
+    });
+
+    // 7. Lifecycle callbacks
+    $('#btn-callbacks').on('click', function() {
+        $.bs4Modal({
+            title: 'Lifecycle Demo',
+            content: '<p>Open the browser <strong>console</strong> (F12) to see each lifecycle callback fire as you open and close this modal.</p>',
+            onOpenBefore:  function() { console.log('[bs4Modal] onOpenBefore — about to show'); },
+            onOpen:        function() { console.log('[bs4Modal] onOpen — modal is fully visible'); },
+            onCloseBefore: function() { console.log('[bs4Modal] onCloseBefore — hide animation starting'); },
+            onClose:       function() { console.log('[bs4Modal] onClose — modal removed from DOM'); }
+        });
+    });
+
+    // 8. Update content after open
+    $('#btn-update-content').on('click', function() {
+        var modal = $.bs4Modal({
+            title: 'Live Content Update',
+            content: '<p>Original content. Replacing in <strong>2 seconds</strong> via <code>setContent()</code>&hellip;</p>'
+        });
+        setTimeout(function() {
+            modal.setContent('<p>Content replaced. Prepending a notice in <strong>2 more seconds</strong> via <code>prependContent()</code>&hellip;</p>');
+        }, 2000);
+        setTimeout(function() {
+            modal.prependContent('<div class="alert alert-success">Prepended with <code>prependContent()</code></div>');
+        }, 4000);
+    });
+
+    // 9. Auto close button
+    $('#btn-closebtn').on('click', function() {
+        $.bs4Modal({
+            title: 'With Cancel Button',
+            content: '<p>A <strong>Cancel</strong> button was added to the footer automatically using <code>closebtn: true</code>, without writing any footer HTML.</p>',
+            closebtn: true
+        });
+    });
+
+    // 10. Mobile breakdown
+    $('#btn-mobile').on('click', function() {
+        $.bs4Modal({
+            title: 'Mobile Responsive',
+            content: `<p>Resize the browser window below <strong>768px</strong> wide to see this modal switch to a fixed full-screen layout.</p>
+                    <p class="mb-0 text-muted">The default breakpoint is 576px. This example uses <code>mobileBreakdown: 768</code>.</p>`,
+            mobileBreakdown: 768
+        });
+    });
+
+    // 13. Long content — default and scrollable dialog
+    // Content is inlined so this example works without a server
+    var longContent = [
+        '<h5>Introduction</h5>',
+        '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>',
+        '<h5>Section 1 — Background</h5>',
+        '<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis molestie dictum semper, est lectus luctus tortor, nec facilisis augue libero nec lorem.</p>',
+        '<p>Phasellus facilisis convallis metus, ut imperdiet augue auctor nec. Duis at velit id augue lobortis porta. Sed varius, enim accumsan aliquam tincidunt, tortor urna vulputate quam, eget finibus urna est in augue.</p>',
+        '<h5>Section 2 — Key Findings</h5>',
+        '<ul><li>Finding one: Aenean lacinia bibendum nulla sed consectetur.</li><li>Finding two: Donec sed odio dui. Cras mattis consectetur purus sit amet fermentum.</li><li>Finding three: Nullam id dolor id nibh ultricies vehicula ut id elit.</li><li>Finding four: Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</li><li>Finding five: Praesent commodo cursus magna, vel scelerisque nisl consectetur.</li></ul>',
+        '<h5>Section 3 — Data Overview</h5>',
+        '<table class="table table-sm table-striped table-bordered"><thead class="thead-dark"><tr><th>#</th><th>Category</th><th>Value</th><th>Status</th></tr></thead><tbody>',
+        '<tr><td>1</td><td>Alpha</td><td>1,240</td><td><span class="badge badge-success">Active</span></td></tr>',
+        '<tr><td>2</td><td>Beta</td><td>980</td><td><span class="badge badge-warning">Pending</span></td></tr>',
+        '<tr><td>3</td><td>Gamma</td><td>3,540</td><td><span class="badge badge-success">Active</span></td></tr>',
+        '<tr><td>4</td><td>Delta</td><td>210</td><td><span class="badge badge-danger">Inactive</span></td></tr>',
+        '<tr><td>5</td><td>Epsilon</td><td>4,870</td><td><span class="badge badge-success">Active</span></td></tr>',
+        '<tr><td>6</td><td>Zeta</td><td>760</td><td><span class="badge badge-warning">Pending</span></td></tr>',
+        '</tbody></table>',
+        '<h5>Section 4 — Analysis</h5>',
+        '<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum. Sed posuere consectetur est at lobortis.</p>',
+        '<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>',
+        '<h5>Section 5 — Recommendations</h5>',
+        '<ol><li>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</li><li>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</li></ol>',
+        '<h5>Section 6 — Conclusion</h5>',
+        '<p>Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris.</p>',
+        '<p class="mb-0">Nunc nonummy metus. Vestibulum volutpat pretium libero. Cras id dui. Aenean ut eros et nisl sagittis vestibulum. Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat, pede.</p>'
+    ].join('\n');
+
+    $('#btn-long-default').on('click', function() {
+        $.bs4Modal({
+            title: 'Long Content — Default Scroll',
+            subtitle: 'The page scrolls as the modal grows',
+            modalsize: 'modal-lg',
+            content: longContent
+        });
+    });
+
+    $('#btn-long-scrollable').on('click', function() {
+        $.bs4Modal({
+            title: 'Long Content — Scrollable Dialog',
+            subtitle: 'Content scrolls inside the modal body',
+            modalsize: 'modal-lg',
+            forceScrollableDialog: true,
+            content: longContent
+        });
+    });
+
+    // 11. AJAX — declarative, load user profile partial
+    $('.js-ajax-profile').bs4Modal({
+        modalsize: 'modal-lg',
+        cache: true
+    });
+
+    // 12. AJAX — load edit form, simulate submit
+    $('#btn-ajax-form').on('click', function() {
+        var modal = $.bs4Modal({
+            href: 'partials/edit-form.html',
+            title: 'Edit User',
+            subtitle: 'Update account details',
+            modalsize: 'modal-lg',
+            footer: '<button id="btn-save-form" class="btn btn-primary">Save changes</button>' +
+                    '<button class="btn btn-secondary" data-dismiss="modal">Cancel</button>'
+        });
+
+        $(document).off('click.bs4ModalSave').on('click.bs4ModalSave', '#btn-save-form', function() {
+            modal.disableClosing();
+            modal.showLoading();
+            // simulate a server round-trip
+            setTimeout(function() {
+                modal.setContent(
+                    '<div class="alert alert-success mb-0">' +
+                        '<strong>Saved!</strong> The user details were updated successfully.' +
+                    '</div>'
+                );
+                modal.resetClosing();
+            }, 2000);
+        });
+    });
+
+}); // end document ready
+</script>
+</body>
+</html>

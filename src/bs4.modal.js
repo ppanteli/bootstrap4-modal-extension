@@ -1,13 +1,14 @@
 /**
- * Dynamic Modal plugin
- * dynamicModal plugin - is used to launch a modal with dynamic content based on the url
+ * BS4Modal plugin
+ * A lightweight jQuery plugin that dynamically loads modal content via AJAX or inline HTML,
+ * built on top of Bootstrap 4 modals.
  * @param {Object} options
  */
 (function($){
     'use strict';
     var dmw = window;
 
-    $.fn.dynamicModal = function(options){
+    $.fn.bs4Modal = function(options){
         if(typeof options === 'undefined') options = {};
         if(options == 'destroy'){
             $(this).off('click');
@@ -30,33 +31,33 @@
                     dmOptions['isAjax'] = false;
                 } else {
                     if(typeof dmOptions['href'] === 'undefined' || dmOptions['href'] == '' || dmOptions['href'] == '#'){
-                        console.warn('href param is not set for element ' + $this[0]);
+                        console.warn('bs4Modal: href param is not set for element ' + $this[0]);
                         dmOptions['isAjax'] = false;
                         dmOptions['pageNotFound'] = true;
                     } else {
                         dmOptions['isAjax'] = true;
                     }
                 }
-                $.dynamicModal(dmOptions);
+                $.bs4Modal(dmOptions);
             });
         });
         return $(this);
-    }; /** end $.fn.dynamicModal */
+    }; /** end $.fn.bs4Modal */
 
-    $.dynamicModal = function(options){
+    $.bs4Modal = function(options){
         if(typeof options === 'undefined') options = {};
         if(!options.hasOwnProperty('isAjax')){
             options['isAjax'] = !options.hasOwnProperty('content');
         }
-        return dmw.dynamicModal(options);
+        return dmw.bs4Modal(options);
     };
 
-    dmw.dynamicModal = function(options){
+    dmw.bs4Modal = function(options){
         if(typeof options === 'undefined') options = {};
-        var pluginOptions = $.extend(true, {}, dmw.dynamicModal.pluginDefaults);
+        var pluginOptions = $.extend(true, {}, dmw.bs4Modal.pluginDefaults);
         pluginOptions = $.extend(true, {}, pluginOptions, options);
         var instance = new dmw.Modal(pluginOptions);
-        dmw.dynamicModal.instances.push(instance);
+        dmw.bs4Modal.instances.push(instance);
         return instance;
     };
 
@@ -83,7 +84,7 @@
             // Check how many modals exist in the page
             const $modalsInDom = $('body').find('.modal');
             var timeout = 0;
-            if(dmw.dynamicModal.instances.length > 1){
+            if(dmw.bs4Modal.instances.length > 1){
                 $modalsInDom.modal('hide');
                 timeout = 150;
             }
@@ -99,10 +100,10 @@
             this._fireCallback('onClose');
             this.$el.remove();
             $(window).unbind('resize.' + this._id);
-            var i = dmw.dynamicModal.instances.length - 1;
+            var i = dmw.bs4Modal.instances.length - 1;
             for(; i >= 0; i--){
-                if(dmw.dynamicModal.instances[i]._id === this._id){
-                    dmw.dynamicModal.instances.splice(i, 1);
+                if(dmw.bs4Modal.instances[i]._id === this._id){
+                    dmw.bs4Modal.instances.splice(i, 1);
                 }
             }
         },
@@ -143,7 +144,7 @@
         refreshContent() {
             setTimeout(() => {
                 this.hideLoading();
-                this._updateModalPosition();
+                //this._updateModalPosition();
                 this._updateBodyMaxHeight();
             }, 300);
         },
@@ -196,8 +197,8 @@
         _buildHTML() {
             var template = $(this.template);
             template.attr('data-keyboard', this.keyboard).attr('data-backdrop', this.backdrop);
-            template.attr('aria-labelledby', 'dynamicModal' + this._id);
-            var idAttr = (this.hasOwnProperty('id')) ? this.id : 'dynamicModal' + this._id;
+            template.attr('aria-labelledby', 'bs4Modal' + this._id);
+            var idAttr = (this.hasOwnProperty('id')) ? this.id : 'bs4Modal' + this._id;
             this._attrId = idAttr;
             template.attr('id', idAttr);
             this.$el = template;
@@ -240,7 +241,7 @@
             if(this.forceScrollableDialog === true){
                 this.$dialog.addClass('modal-dialog-scrollable');
             }
-            this._updateModalPosition();
+            //this._updateModalPosition();
             this.setTitle();
             this.$el.appendTo($('body'));
             this._parseContent();
@@ -248,8 +249,8 @@
 
         _parseContent() {
             // Check if the request must be cached. If yes then try to get it from the cache.
-            if(this.cache === true && dmw.dynamicModal.cacheStorage.hasOwnProperty(this.href)){
-                this.content = dmw.dynamicModal.cacheStorage[this.href];
+            if(this.cache === true && dmw.bs4Modal.cacheStorage.hasOwnProperty(this.href)){
+                this.content = dmw.bs4Modal.cacheStorage[this.href];
                 this.contentParsed.html(this.content);
                 this.setContent();
                 return true;
@@ -263,12 +264,12 @@
                     this.contentParsed.html(html);
                     this.setContent();
                     if(jqxhr.status == 200 && this.cache === true){
-                        dmw.dynamicModal.cacheStorage[this.href] = html;
+                        dmw.bs4Modal.cacheStorage[this.href] = html;
                     }
                 });
                 jqxhr.fail((_xhr, status, error) => {
                     this.setContent(this.ajaxErrorTemplate);
-                    console.error('dynamicModal: AJAX request failed for "' + this.href + '" — ' + status + ' ' + error);
+                    console.error('bs4Modal: AJAX request failed for "' + this.href + '" — ' + status + ' ' + error);
                 });
             } else {
                 this.contentParsed.html(this.content);
@@ -277,6 +278,7 @@
         },
 
         _updateModalPosition() {
+            console.log(this.forceScrollableDialog);
             if(this._isDeviceBreakdown() === false){
                 this.$el.removeClass('modal-fixed');
                 return true;
@@ -310,16 +312,16 @@
 
         _updateBodyMaxHeight() {
             if(this._isDeviceBreakdown() === false){
-                this.$bodyContainer.css({'max-height': 'initial'});
+                //this.$bodyContainer.css({'max-height': 'initial'});
                 return true;
             }
-            var height = this._getMaxBodyContainerHeight();
-            this.$bodyContainer.css({'max-height': height + 'px'});
+            //var height = this._getMaxBodyContainerHeight();
+            //this.$bodyContainer.css({'max-height': height + 'px'});
         },
 
         _bindEvents() {
             $(window).on('resize.' + this._id, () => {
-                this._updateModalPosition();
+                //this._updateModalPosition();
                 this._updateBodyMaxHeight();
             });
             this.$el.on('click', '[data-dismiss="modal"]', (e) => {
@@ -343,6 +345,14 @@
             modal.on('hide.bs.modal', () => {
                 if(this._manualDismissCalled === false && this.isClosingDisabled())
                     return false;
+                // Move focus away before Bootstrap sets aria-hidden on the modal element.
+                // Bootstrap focuses the modal root (tabindex="-1") when it opens, so
+                // document.activeElement may be the modal itself or a child — both cases
+                // are handled here to prevent the aria-hidden focus constraint warning.
+                var active = document.activeElement;
+                if(active && this.$el[0].contains(active)){
+                    active.blur();
+                }
                 this._fireCallback('onCloseBefore');
             });
             modal.on('hidden.bs.modal', () => {
@@ -357,12 +367,12 @@
 
     }; /** End modal prototype */
 
-    dmw.dynamicModal.cacheStorage = {};
-    dmw.dynamicModal.instances = [];
-    dmw.dynamicModal.pluginDefaults = {
+    dmw.bs4Modal.cacheStorage = {};
+    dmw.bs4Modal.instances = [];
+    dmw.bs4Modal.pluginDefaults = {
         template: `
-            <div id="dynamicModal" class="modal custom-modal dynamic-modal-plugin fade"
-                 tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="dynamicModalTitle">
+            <div id="bs4Modal" class="modal custom-modal bs4-modal-plugin fade"
+                 tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="bs4ModalTitle">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -417,6 +427,6 @@
         subtitleTemplate: '<div class="modal-subtitle"></div>',
         titleIconTemplate: '<div class="modal-title-icon"></div>',
         cache: false
-    }; /** end dmw.dynamicModal.pluginDefaults */
+    }; /** end dmw.bs4Modal.pluginDefaults */
 
 })(jQuery);
