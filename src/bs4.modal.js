@@ -278,7 +278,6 @@
         },
 
         _updateModalPosition() {
-            console.log(this.forceScrollableDialog);
             if(this._isDeviceBreakdown() === false){
                 this.$el.removeClass('modal-fixed');
                 return true;

@@ -72,10 +72,45 @@ That's it. The plugin:
 
 ## Installation
 
+### CDN
+
+The quickest way — no installation required:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.js"></script>
+```
+
+Or via unpkg:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/bs4-modal-ext/dist/bs4.modal.min.css">
+
+<script src="https://unpkg.com/bs4-modal-ext/dist/bs4.modal.min.js"></script>
+```
+
+### npm
+
+```bash
+npm install bs4-modal-ext
+```
+
+### Composer
+
+```bash
+composer require ppanteli/bs4-modal-ext
+```
+
+### Manual
+
 Copy `bs4.modal.js` into your project and include it after jQuery and Bootstrap JS:
 
 ```html
 <link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="bs4.modal.css">
 
 <script src="jquery.min.js"></script>
 <script src="bootstrap.bundle.min.js"></script>
