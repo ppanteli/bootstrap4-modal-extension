@@ -17,6 +17,9 @@
         $(this).each(function(){
             let $this = $(this);
             $this.on('click', function(e){
+                if (this.dataset.hasOwnProperty('bsClicked'))
+                    return;
+                this.dataset.bsClicked = true;
                 e.preventDefault();
                 let opts = $.extend({}, options);
                 /* merge individual options */
@@ -38,6 +41,7 @@
                         dmOptions['isAjax'] = true;
                     }
                 }
+                dmOptions['triggerEl'] = this;
                 $.bs4Modal(dmOptions);
             });
         });
@@ -57,6 +61,7 @@
         let pluginOptions = $.extend(true, {}, dmw.bs4Modal.pluginDefaults);
         pluginOptions = $.extend(true, {}, pluginOptions, options);
         let instance = new dmw.Modal(pluginOptions);
+        instance.options = options;
         dmw.bs4Modal.instances.push(instance);
         return instance;
     };
@@ -97,6 +102,9 @@
         },
 
         close() {
+            if (this.options.hasOwnProperty('triggerEl'))
+                delete this.options.triggerEl.dataset.bsClicked;
+
             this._fireCallback('onClose');
             this.$el.remove();
             $(window).off('resize.' + this._id);
@@ -185,24 +193,34 @@
         disableClosing() {
             this._config.backdrop = 'static';
             this._config.keyboard = false;
-            this.$el.find('[data-dismiss="modal"]').css('visibility', 'hidden');
+            if (this.$el){
+                let el = this.$el.data('bs.modal');
+                el._config.backdrop = 'static';
+                el._config.keyboard = false;
+                this.$el.attr('data-keyboard', false).attr('data-backdrop', 'static').addClass('dismiss-disabled');
+            }
         },
-
         resetClosing() {
-            this._config.backdrop = this.backdrop;
-            this._config.keyboard = this.keyboard;
-            this.$el.find('[data-dismiss="modal"]').css('visibility', 'visible');
+            let el = this.$el.data('bs.modal');
+            this._config.backdrop = el._config.backdrop = this.backdrop;
+            this._config.keyboard = el._config.keyboard = this.keyboard;
+            this.$el.attr('data-keyboard', this.keyboard).attr('data-backdrop', this.backdrop).removeClass('dismiss-disabled');
         },
 
         _buildHTML() {
             let template = $(this.template);
-            template.attr('data-keyboard', this.keyboard).attr('data-backdrop', this.backdrop);
+            template.attr('data-keyboard', this._config.keyboard).attr('data-backdrop', this._config.backdrop);
             template.attr('aria-labelledby', 'bs4Modal' + this._id);
             const idAttr = (this.hasOwnProperty('id')) ? this.id : 'bs4Modal' + this._id;
             this._attrId = idAttr;
             template.attr('id', idAttr);
             this.$el = template;
             this.$el.addClass(this.modalclass);
+
+            if (this.isClosingDisabled()){
+                this.$el.addClass('dismiss-disabled');
+            }
+
             this.$dialog = this.$el.find('.modal-dialog');
             this.$dialog.addClass(this.modalsize);
             this.$content = this.$el.find('.modal-content');
@@ -214,14 +232,17 @@
             this.$body = this.$el.find('.modal-body');
             this.$footer = this.$el.find('.modal-footer').addClass(this.footerclass);
             this.$closebtn = $(this.closebtnTemplate).addClass(this.closebtnclass);
+
             if(this.animation !== false){
                 this.$dialog.addClass('animation ' + this.animation);
                 this.$dialog.css({'animation-duration': this.animationSpeed + 'ms'});
                 if(this.animationDelay && this.animationDelay > 0)
                     this.$dialog.css({'animation-delay': this.animationDelay + 'ms'});
             }
+
             if(this.header === false)
                 this.$header.remove();
+
             if(this.footer === false){
                 if(this.closebtn === true){
                     this.$closebtn.appendTo(this.$footer);
@@ -231,13 +252,16 @@
             } else {
                 this.$footer.html(this.footer);
             }
+
             if(this.closemodal == 'manual'){
                 this.$el.find('[data-dismiss="modal"]').remove();
             }
+
             if(this.isAjax){
                 if(this.hideLoader === false)
                     this.showLoading();
             }
+
             if(this.forceScrollableDialog === true){
                 this.$dialog.addClass('modal-dialog-scrollable');
             }
@@ -329,18 +353,29 @@
                 this.dismiss();
             });
         },
-
         _open() {
-            this._onOpenBefore();
-            this._fireCallback('onOpenBefore');
-            const modal = this.$el.modal();
+            if(this.pageNotFound)
+                this.setContent(this.pageNotFoundTemplate);
+
+            this.$el.on('show.bs.modal', () => {
+                this._fireCallback('onOpenBefore');
+            });
+
+            const modal = this.$el.modal('show');
+
+            this._fireCallback('onOpen');
+
             modal.on('shown.bs.modal', () => {
                 $('body').addClass('modal-open');
-                this._fireCallback('onOpen');
+                this._fireCallback('onOpenAfter');
+
+                // Animation observer was a custom function. Can be removed.
                 if(typeof window['AnimationsObserver'] === 'function'){
                     setTimeout(() => AnimationsObserver(), 300);
                 }
             });
+
+            // onClose
             modal.on('hide.bs.modal', () => {
                 if(this._manualDismissCalled === false && this.isClosingDisabled())
                     return false;
@@ -354,16 +389,12 @@
                 }
                 this._fireCallback('onCloseBefore');
             });
+
+            // onCloseAfter
             modal.on('hidden.bs.modal', () => {
                 this.close();
             });
-        },
-
-        _onOpenBefore() {
-            if(this.pageNotFound)
-                this.setContent(this.pageNotFoundTemplate);
         }
-
     }; /** End modal prototype */
 
     dmw.bs4Modal.cacheStorage = {};
@@ -403,7 +434,7 @@
         modalclass: '',
         modalsize: '',
         content: '',
-        closemodal: 'auto',
+        closemodal: 'auto', // manual, disabled
         pageNotFound: false,
         pageNotFoundTemplate: '<div class="alert alert-warning" style="margin-bottom:0;">Page not found!</div>',
         ajaxErrorTemplate: '<div class="alert alert-danger" style="margin-bottom:0;">Failed to load content. Please try again.</div>',

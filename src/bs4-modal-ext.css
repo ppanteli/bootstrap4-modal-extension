@@ -59,6 +59,10 @@
     margin-top:.35rem
 }
 
+.bs4-modal-plugin.dismiss-disabled [data-dismiss="modal"]{
+    visibility: hidden;
+}
+
 @media (min-width: 576px) {
     .modal-dialog-centered{min-height:calc(100% - 3.5rem)}
     .modal-dialog-centered::before{height:calc(100vh - 3.5rem);height:-webkit-min-content;height:-moz-min-content;height:min-content}

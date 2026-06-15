@@ -58,7 +58,7 @@ That's it. The plugin:
 - CSS animation support with customisable speed and delay
 - Mobile-responsive: snaps to a fixed full-screen layout below a configurable breakpoint
 - Programmatic control: open, close, dismiss, show/hide loader, enable/disable closing
-- Lifecycle hooks: `onOpenBefore`, `onOpen`, `onCloseBefore`, `onClose`
+- Lifecycle hooks: `onOpenBefore`, `onOpen`, `onOpenAfter`, `onCloseBefore`, `onClose`
 - Multiple modal instances managed automatically (previous modal is hidden when a new one opens)
 
 ---
@@ -234,7 +234,8 @@ Pass any of these as options to hook into the modal lifecycle:
 $.bs4Modal({
   href: '/content',
   onOpenBefore:  function() { console.log('About to open'); },
-  onOpen:        function() { console.log('Modal is visible'); },
+  onOpen:        function() { console.log('Bootstrap show called'); },
+  onOpenAfter:   function() { console.log('Modal is fully visible'); },
   onCloseBefore: function() { console.log('About to close'); },
   onClose:       function() { console.log('Modal removed from DOM'); }
 });
@@ -242,12 +243,11 @@ $.bs4Modal({
 
 | Callback | Fires when |
 |---|---|
-| `onOpenBefore` | Immediately before Bootstrap shows the modal. |
-| `onOpen` | After the `shown.bs.modal` event — modal is fully visible. |
+| `onOpenBefore` | On the `show.bs.modal` event — immediately before Bootstrap shows the modal. |
+| `onOpen` | Immediately after Bootstrap's `modal('show')` is called. |
+| `onOpenAfter` | After the `shown.bs.modal` event — modal is fully visible. |
 | `onCloseBefore` | On the `hide.bs.modal` event — before the hide animation starts. |
 | `onClose` | After the `hidden.bs.modal` event — modal has been removed from the DOM. |
-
-> `onOpenAfter` and `onCloseAfter` are reserved names but are not currently triggered by the plugin.
 
 ---
 

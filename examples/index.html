@@ -369,7 +369,7 @@ $(function() {
     $('#btn-disable-closing').on('click', function() {
         var modal = $.bs4Modal({
             title: 'Submitting Form',
-            content: '<p>Simulating an async operation. Closing is <strong>disabled</strong> for 3 seconds&hellip;</p>'
+            content: '<p>Simulating an async operation. Closing is <strong>disabled</strong> for 3 seconds&hellip;</p>',
         });
         modal.disableClosing();
         setTimeout(function() {

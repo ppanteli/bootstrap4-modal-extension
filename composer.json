@@ -1,7 +1,7 @@
 {
   "name": "ppanteli/bs4-modal-ext",
   "description": "A lightweight jQuery plugin that dynamically loads modal content via AJAX or inline HTML, built on top of Bootstrap 4 modals.",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "type": "component",
   "keywords": [
     "bootstrap",
