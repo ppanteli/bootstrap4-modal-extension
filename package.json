@@ -2,19 +2,19 @@
   "name": "bs4-modal-ext",
   "version": "1.0.0",
   "description": "A lightweight jQuery plugin that dynamically loads modal content via AJAX or inline HTML, built on top of Bootstrap 4 modals.",
-  "main": "dist/bs4.modal.min.js",
-  "style": "dist/bs4.modal.min.css",
+  "main": "dist/bs4-modal-ext.min.js",
+  "style": "dist/bs4-modal-ext.min.css",
   "files": [
-    "src/bs4.modal.js",
-    "src/bs4.modal.css",
-    "dist/bs4.modal.min.js",
-    "dist/bs4.modal.min.css",
+    "src/bs4-modal-ext.js",
+    "src/bs4-modal-ext.css",
+    "dist/bs4-modal-ext.min.js",
+    "dist/bs4-modal-ext.min.css",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build:js": "terser src/bs4.modal.js --compress --mangle --output dist/bs4.modal.min.js",
-    "build:css": "cleancss -o dist/bs4.modal.min.css src/bs4.modal.css",
+    "build:js": "terser src/bs4-modal-ext.js --compress --mangle --output dist/bs4-modal-ext.min.js",
+    "build:css": "cleancss -o dist/bs4-modal-ext.min.css src/bs4-modal-ext.css",
     "build": "npm run build:js && npm run build:css"
   },
   "keywords": [

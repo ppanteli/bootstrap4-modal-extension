@@ -33,10 +33,10 @@
   "extra": {
     "component": {
       "scripts": [
-        "dist/bs4.modal.min.js"
+        "dist/bs4-modal-ext.min.js"
       ],
       "styles": [
-        "dist/bs4.modal.min.css"
+        "dist/bs4-modal-ext.min.css"
       ]
     }
   },

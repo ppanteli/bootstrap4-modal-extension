@@ -33,3 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `composer.json` for Packagist/Composer distribution
 - Minified builds in `dist/` via `npm run build`
 - MIT License
+
+### Changed
+- Plugin files renamed from `bs4.modal.js` / `bs4.modal.css` to `bs4-modal-ext.js` / `bs4-modal-ext.css` to align with the npm package name `bs4-modal-ext`

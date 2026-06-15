@@ -77,19 +77,19 @@ That's it. The plugin:
 The quickest way — no installation required:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4-modal-ext.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4.modal.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bs4-modal-ext/dist/bs4-modal-ext.min.js"></script>
 ```
 
 Or via unpkg:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/bs4-modal-ext/dist/bs4.modal.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bs4-modal-ext/dist/bs4-modal-ext.min.css">
 
-<script src="https://unpkg.com/bs4-modal-ext/dist/bs4.modal.min.js"></script>
+<script src="https://unpkg.com/bs4-modal-ext/dist/bs4-modal-ext.min.js"></script>
 ```
 
 ### npm
@@ -110,11 +110,11 @@ Copy `bs4.modal.js` into your project and include it after jQuery and Bootstrap 
 
 ```html
 <link rel="stylesheet" href="bootstrap.min.css">
-<link rel="stylesheet" href="bs4.modal.css">
+<link rel="stylesheet" href="bs4-modal-ext.css">
 
 <script src="jquery.min.js"></script>
 <script src="bootstrap.bundle.min.js"></script>
-<script src="bs4.modal.js"></script>
+<script src="bs4-modal-ext.js"></script>
 ```
 
 ---
