@@ -106,7 +106,7 @@ composer require ppanteli/bs4-modal-ext
 
 ### Manual
 
-Copy `bs4.modal.js` into your project and include it after jQuery and Bootstrap JS:
+Copy `bs4-modal-ext.js` into your project and include it after jQuery and Bootstrap JS:
 
 ```html
 <link rel="stylesheet" href="bootstrap.min.css">
