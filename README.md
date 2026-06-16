@@ -66,7 +66,7 @@ That's it. The plugin:
 ## Requirements
 
 - jQuery 3.5.1+
-- Bootstrap 4.6.2
+- Bootstrap 4.6+
 
 ---
 
